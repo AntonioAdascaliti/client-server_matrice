@@ -24,6 +24,7 @@ public class Client {
             //DataOutputStream writer = new DataOutputStream(s.getOutputStream());
             OutputStream s_out = s.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(s_out));
+
             /*
                 Ricava lo stream di input dal socket s1
                 ed utilizza un oggetto wrapper di classe BufferedReader
@@ -58,7 +59,8 @@ public class Client {
                 column = tastiera.readLine();
             }
 
-            writer.write(row + "," + column + "\n");
+            //writer.write(row + "," + column + "\n");
+
             // Al termine, chiude lo stream di comunicazione e il socket.
             reader.close();
             writer.close();

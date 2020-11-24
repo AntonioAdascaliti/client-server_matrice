@@ -57,12 +57,15 @@ public class Server {
                 for (String[] row : default_matrix)
                     writer.write(Arrays.toString(row) + "\n");
 
-                String dati = reader.readLine();
-                System.out.println(dati);
+                /*
+                    String dati = reader.readLine();
+                    System.out.println(dati);
+                 */
+
+
                 //Chiusura della connessione una volta terminata la richiesta
                 writer.close();
                 s_out.close();
-                s_in.close();
                 System.out.println("Chiusura connessione effettuata\n");
             }
             catch (IOException e)
