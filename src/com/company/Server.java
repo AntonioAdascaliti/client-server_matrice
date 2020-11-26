@@ -103,9 +103,9 @@ public class Server {
         {
             server = new ServerSocket(port);
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            ex.printStackTrace();
+            e.printStackTrace();
             return false;
         }
         System.out.println("Server creato con successo!");
