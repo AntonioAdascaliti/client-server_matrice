@@ -11,6 +11,7 @@ public class Server {
     private int port;
     private ServerSocket server;
     private int counter;
+    private Matrix matrix;
 
     public Server (int port)
     {
@@ -21,6 +22,8 @@ public class Server {
         {
             System.err.println("Errore durante la creazione del Server");
         }
+
+        matrix = new Matrix();
     }
 
     public static void main(String[] args) {
@@ -44,14 +47,6 @@ public class Server {
                 this.counter++;
                 System.out.println("Un client si e' connesso: utente "+this.counter);
 
-                //Dichiaro la matrice di default
-                final String[][] default_matrix = {
-                        {"0", "0", "0", "0"},
-                        {"0", "1", "0", "0"},
-                        {"0", "0", "0", "0"},
-                        {"0", "0", "0", "0"},
-                };
-
                 // Stream in input (lettura dei dati in arrivo dal client)
                 InputStreamReader input_stream = new InputStreamReader(s.getInputStream());
                 BufferedReader reader = new BufferedReader(input_stream);
@@ -63,24 +58,49 @@ public class Server {
                 writer.println("Matrice iniziale:");
                 writer.flush();
 
-                for (String[] r : default_matrix)
+                for (String[] r : matrix.getMatrix())
                     writer.println(Arrays.toString(r));
 
                 writer.flush();
 
-                //Ricevo i parametri dal client
-                String[] parametri = reader.readLine().split(",");
-                int row = Integer.parseInt(parametri[0]);
-                int col = Integer.parseInt(parametri[1]);
+                writer.println(matrix.getCurrent_row_position()+"");
+                writer.flush();
+                writer.println(matrix.getCurrent_column_position()+"");
+                writer.flush();
 
-                String[][] matrix = default_matrix;
-                matrix[1][1] = "0";
-                matrix[row][col] = "1";
+                //Ricevo i parametri dal client
+                String param = reader.readLine().toLowerCase();
+
+                int row = matrix.getCurrent_row_position();
+                int column = matrix.getCurrent_column_position();
+                switch(param){
+                    case "n":
+                        row--;
+                        matrix.setMatrix(row, matrix.getCurrent_column_position());
+                    break;
+
+                    case "e":
+                        column++;
+                        matrix.setMatrix(matrix.getCurrent_row_position(), column);
+                    break;
+
+                    case "s":
+                        row++;
+                        matrix.setMatrix(row, matrix.getCurrent_column_position());
+                    break;
+
+                    case "w":
+                        column--;
+                        matrix.setMatrix(matrix.getCurrent_row_position(), column);
+                    break;
+
+                }
 
                 //Invio al client la matrice modificata
                 writer.println("Matrice aggiornata:");
                 writer.flush();
-                for (String[] r : matrix)
+
+                for (String[] r : matrix.getMatrix())
                     writer.println(Arrays.toString(r));
 
                 writer.flush();

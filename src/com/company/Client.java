@@ -29,30 +29,49 @@ public class Client {
             for(int i = 0; i < 4; i++)
                 System.out.println("\t  " + reader.readLine());
 
-            // Inserimento parametro delle righe
-            System.out.println("\nInserire la riga (0-3) dove si vuole spostare il segnalino: ");
-            String row = tastiera.readLine();
+            int row = Integer.parseInt(reader.readLine());
+            int column = Integer.parseInt(reader.readLine());
+            // Inserimento parametro
+            System.out.println("\nInserire la direzione in cui spostare il segnalino (n-e-w-s): ");
+            String direction = tastiera.readLine();
+
             // Eseguo i controlli sul parametro
-            while(Integer.parseInt(row) < 0 || Integer.parseInt(row) > 3){
-                System.out.println("È stato inserito un valore errato. Inserire un valore tra 0 e 3");
-                row = tastiera.readLine();
+            switch(direction.toLowerCase()){
+                case "n":
+                    if(row == 0){
+                        System.out.println("Non è possibile eseguire la mossa");
+                        return;
+                    }
+                break;
+
+                case "e":
+                    if(column == 3){
+                        System.out.println("Non è possibile eseguire la mossa");
+                        return;
+                    }
+                break;
+
+                case "w":
+                    if(column == 0){
+                        System.out.println("Non è possibile eseguire la mossa");
+                        return;
+                    }
+                    break;
+
+                case "s":
+                    if(row == 3){
+                        System.out.println("Non è possibile eseguire la mossa");
+                        return;
+                    }
+                break;
             }
 
-            // Inserimento parametro delle colonne
-            System.out.println("Inserire la colonna (0-3) dove si vuole spostare il segnalino: ");
-            String column = tastiera.readLine();
-            // Eseguo i controlli sul parametro
-            while(Integer.parseInt(column) < 0 || Integer.parseInt(column) > 3){
-                System.out.println("È stato inserito un valore errato. Inserire un valore tra 0 e 3");
-                column = tastiera.readLine();
-            }
-
-            // Invio i parametri al server
-            writer.println(row + "," + column + "\n");
+            // Invio il parametro al server
+            writer.println(direction);
             writer.flush();
 
             // Visualizzo la matrice aggiornata
-            System.out.println("\n>> " + reader.readLine() + "\n");
+            System.out.println(">> " + reader.readLine() + "\n");
             for(int i = 0; i < 4; i++)
                 System.out.println("\t  " + reader.readLine());
 
